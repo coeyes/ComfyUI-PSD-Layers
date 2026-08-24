@@ -4,3 +4,4 @@ __pycache__/
 Desktop.ini
 Thumbs.db
 node.zip
+*.stackdump
