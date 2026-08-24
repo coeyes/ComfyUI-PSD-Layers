@@ -75,5 +75,12 @@ from psd_tools import PSDImage  # noqa: E402
 psd = PSDImage.open(os.path.join(of2, saved2["psd"]["filename"]))
 names = [(l.name, l.visible) for l in psd]
 print("psd layers:", names)
-assert names == [("background", True), ("Red thing", True), ("Green thing", False)]
+assert names == [("base_image", True), ("Red thing", True), ("Green thing", False)]
+
+# base_image 숨김(-1) 저장 확인
+saved3, comp3 = mod._save_outputs(session, [0, 1], {-1}, "ssl_test/smoke_nobase")
+of3 = os.path.join(folder_paths.get_output_directory(), saved3["psd"]["subfolder"])
+psd3 = PSDImage.open(os.path.join(of3, saved3["psd"]["filename"]))
+assert [(l.name, l.visible) for l in psd3][0] == ("base_image", False)
+assert comp3.getpixel((5, 5))[3] == 0  # 미리보기에서 base 제외 → 투명
 print("OK")

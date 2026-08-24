@@ -197,6 +197,10 @@ class LayerPanel {
       this.state = {
         canvas: payload.canvas,
         baseImg,
+        // base_image 를 최하단 고정 의사 레이어로 취급 (인덱스 -1, 드래그 불가)
+        baseLayer: { name: "base_image", rect: [0, 0, payload.canvas[0], payload.canvas[1]],
+                     img: baseImg, actx: null },
+        baseVisible: true,
         layers,
         order: payload.layers.map((l) => l.index), // 아래→위
         selected: null,
@@ -213,10 +217,16 @@ class LayerPanel {
     }
   }
 
+  // 인덱스로 레이어 얻기 (-1 = base_image)
+  layerOf(idx) {
+    return idx === -1 ? this.state.baseLayer : this.state.layers.get(idx);
+  }
+
   updateCount() {
     if (!this.state) return;
-    const total = this.state.order.length;
-    const visible = this.state.order.filter((i) => this.state.layers.get(i).visible).length;
+    const total = this.state.order.length + 1; // + base_image
+    const visible = this.state.order.filter((i) => this.state.layers.get(i).visible).length
+      + (this.state.baseVisible ? 1 : 0);
     this.countEl.textContent = `${visible}/${total}`;
     const [W, H] = this.state.canvas;
     this.infoEl.textContent = t("layersCount", { n: total }) + ` · ${W}×${H}`;
@@ -245,8 +255,9 @@ class LayerPanel {
 
     ctx.imageSmoothingQuality = "high";
     const px = scale * dpr;
-    ctx.drawImage(this.bitmapFor(this.state.baseImg, Math.round(W * px), Math.round(H * px)),
-      ox, oy, W * scale, H * scale);
+    if (this.state.baseVisible)
+      ctx.drawImage(this.bitmapFor(this.state.baseImg, Math.round(W * px), Math.round(H * px)),
+        ox, oy, W * scale, H * scale);
     for (const idx of this.state.order) {
       const L = this.state.layers.get(idx);
       if (!L.visible) continue;
@@ -256,7 +267,7 @@ class LayerPanel {
     }
 
     if (this.state.selected != null) {
-      const L = this.state.layers.get(this.state.selected);
+      const L = this.layerOf(this.state.selected);
       if (L) {
         const [x, y, w, h] = L.rect;
         const rx = ox + x * scale, ry = oy + y * scale, rw = w * scale, rh = h * scale;
@@ -323,6 +334,10 @@ class LayerPanel {
       if (x < lx || y < ly || x >= lx + lw || y >= ly + lh) continue;
       if (this.alphaAt(L, x - lx, y - ly) > 12) return idx;
     }
+    // 최하단 base_image
+    const B = this.state.baseLayer;
+    if (this.state.baseVisible && x >= 0 && y >= 0 && x < B.rect[2] && y < B.rect[3]
+        && this.alphaAt(B, x, y) > 12) return -1;
     return null;
   }
 
@@ -378,6 +393,43 @@ class LayerPanel {
       row.addEventListener("pointerdown", (ev) => this.onRowPointerDown(ev, row, idx));
       this.listEl.appendChild(row);
     }
+
+    // 최하단 base_image 행 (고정 — 드래그 재정렬 불가, 선택/숨김만)
+    const B = this.state.baseLayer;
+    const row = document.createElement("div");
+    row.className = "ssl-row";
+    row.dataset.idx = "-1";
+    row.style.cursor = "pointer";
+    if (this.state.selected === -1) row.classList.add("ssl-selected");
+    const thumb = document.createElement("div");
+    thumb.className = "ssl-thumb";
+    const timg = new Image();
+    timg.src = B.img.src;
+    thumb.appendChild(timg);
+    const name = document.createElement("span");
+    name.className = "ssl-name";
+    name.textContent = B.name;
+    name.title = B.name;
+    const eye = document.createElement("button");
+    eye.className = "ssl-eye" + (this.state.baseVisible ? "" : " ssl-off");
+    eye.textContent = "\u{1F441}";
+    eye.title = t("eyeTitle");
+    eye.addEventListener("pointerdown", (ev) => ev.stopPropagation());
+    eye.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.state.baseVisible = !this.state.baseVisible;
+      eye.classList.toggle("ssl-off", !this.state.baseVisible);
+      this.updateCount();
+      this.draw();
+    });
+    row.append(thumb, name, eye);
+    row.addEventListener("pointerdown", (ev) => {
+      if (ev.button !== 0) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      this.select(-1);
+    });
+    this.listEl.appendChild(row);
   }
 
   onRowPointerDown(ev, row, idx) {
@@ -448,7 +500,10 @@ class LayerPanel {
         body: JSON.stringify({
           node_id: this.state.nodeId,
           order: this.state.order,
-          hidden: this.state.order.filter((i) => !this.state.layers.get(i).visible),
+          hidden: [
+            ...this.state.order.filter((i) => !this.state.layers.get(i).visible),
+            ...(this.state.baseVisible ? [] : [-1]), // -1 = base_image 숨김
+          ],
           filename_prefix: prefixW?.value,
         }),
       });

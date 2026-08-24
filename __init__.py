@@ -57,8 +57,10 @@ def _save_outputs(
     stem = f"{filename}_{counter:05}_"
     by_index = session["by_index"]
 
-    # PSD: 배경(스마트 오브젝트) + 레이어들 아래→위. 숨긴 레이어는 visible=False로 포함.
-    psd_entries = [{"name": "background", "image": session["base"], "rect": (0, 0, W, H), "visible": True}]
+    # PSD: base_image(스마트 오브젝트) + 레이어들 아래→위. 숨긴 레이어는 visible=False로 포함.
+    # hidden 의 -1 은 base_image 를 뜻한다.
+    base_visible = -1 not in hidden
+    psd_entries = [{"name": "base_image", "image": session["base"], "rect": (0, 0, W, H), "visible": base_visible}]
     for idx in order:
         e = by_index[idx]
         psd_entries.append({
@@ -69,7 +71,7 @@ def _save_outputs(
     build_psd(psd_entries, (W, H), psd_path)
 
     # 미리보기 PNG: 숨긴 레이어 제외하고 합성
-    comp = session["base"].copy()
+    comp = session["base"].copy() if base_visible else Image.new("RGBA", (W, H), (0, 0, 0, 0))
     for idx in order:
         if idx in hidden:
             continue
@@ -261,7 +263,8 @@ try:
         valid = set(session["by_index"].keys())
         order = [int(i) for i in data.get("order", []) if int(i) in valid]
         order += [i for i in session["default_order"] if i not in order]
-        hidden = {int(i) for i in data.get("hidden", []) if int(i) in valid}
+        # -1 = base_image 숨김
+        hidden = {int(i) for i in data.get("hidden", []) if int(i) in valid or int(i) == -1}
         prefix = data.get("filename_prefix") or session["filename_prefix"]
         try:
             saved, _ = await asyncio.to_thread(_save_outputs, session, order, hidden, prefix)
