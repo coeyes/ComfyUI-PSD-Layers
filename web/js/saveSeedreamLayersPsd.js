@@ -41,6 +41,7 @@ const STYLE = `
   background:#3a5ccc; color:#fff; font-size:12px; }
 .ssl-save:hover { background:#4a6cdc; }
 .ssl-save:disabled { background:#333; color:#777; cursor:default; }
+.ssl-info { flex:none; color:#9a9; padding:0 2px; }
 .ssl-status { flex:none; min-height:15px; max-height:45px; overflow-y:auto;
   color:#8b8; padding:0 2px; word-break:break-all; }
 .ssl-status.ssl-err { color:#c77; }
@@ -81,6 +82,7 @@ class LayerPanel {
         <div class="ssl-head"><span class="ssl-word"></span><span class="ssl-count"></span></div>
         <div class="ssl-list"></div>
         <button class="ssl-save"></button>
+        <div class="ssl-info"></div>
         <div class="ssl-status"></div>
       </div>`;
     this.root = root;
@@ -91,6 +93,7 @@ class LayerPanel {
     this.wordEl = root.querySelector(".ssl-word");
     this.countEl = root.querySelector(".ssl-count");
     this.saveBtn = root.querySelector(".ssl-save");
+    this.infoEl = root.querySelector(".ssl-info");
     this.statusEl = root.querySelector(".ssl-status");
     this.refreshTexts();
 
@@ -177,7 +180,10 @@ class LayerPanel {
     this.wordEl.textContent = t("layers");
     this.saveBtn.textContent = t("savePsdBtn");
     this.renderStatus();
-    if (this.state) this.renderList();
+    if (this.state) {
+      this.updateCount();
+      this.renderList();
+    }
   }
 
   async load(payload) {
@@ -212,6 +218,8 @@ class LayerPanel {
     const total = this.state.order.length;
     const visible = this.state.order.filter((i) => this.state.layers.get(i).visible).length;
     this.countEl.textContent = `${visible}/${total}`;
+    const [W, H] = this.state.canvas;
+    this.infoEl.textContent = t("layersCount", { n: total }) + ` · ${W}×${H}`;
   }
 
   // ---- 미리보기 캔버스 ----
