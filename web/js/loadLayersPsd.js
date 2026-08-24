@@ -717,7 +717,10 @@ app.registerExtension({
           return rr;
         };
       }
-      this.addDOMWidget("psd_panel", "div", panel.root, { serialize: false });
+      const dw = this.addDOMWidget("psd_panel", "div", panel.root, { serialize: false });
+      // 프론트엔드 직렬화 스킵 조건은 widget.serialize === false (options 가 아니라 위젯 객체).
+      // 이게 없으면 widgets_values 에 ""가 끼어들어 복원 시 psd/layer_state 값이 유실된다.
+      dw.serialize = false;
       // 새 노드: 레이어 쌍 슬롯은 inspect 전까지 접어둔다
       if (this.outputs) {
         while (this.outputs.length > BASE_OUTPUTS) this.removeOutput(this.outputs.length - 1);
@@ -729,8 +732,17 @@ app.registerExtension({
     };
 
     const onConfigure = nodeType.prototype.onConfigure;
-    nodeType.prototype.onConfigure = function () {
+    nodeType.prototype.onConfigure = function (info) {
       const r = onConfigure?.apply(this, arguments);
+      // 구버전 저장본(DOM 위젯 값 포함) 구제: named 맵에서 실제 위젯 값 재적용
+      const named = info?.widgets_values_named;
+      if (named) {
+        for (const name of ["psd", "layer_state", "psd_path"]) {
+          if (typeof named[name] !== "string") continue;
+          const w = this.widgets?.find((x) => x.name === name);
+          if (w && w.value !== named[name]) w.value = named[name];
+        }
+      }
       setTimeout(() => this.llpPanel?.autoInspect(), 0);
       return r;
     };

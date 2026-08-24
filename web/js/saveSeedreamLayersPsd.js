@@ -484,7 +484,10 @@ app.registerExtension({
       }
       const panel = new LayerPanel(this);
       this.sslPanel = panel;
-      this.addDOMWidget("psd_layers", "div", panel.root, { serialize: false });
+      const dw = this.addDOMWidget("psd_layers", "div", panel.root, { serialize: false });
+      // 프론트엔드 직렬화 스킵 조건은 widget.serialize === false (options 가 아니라 위젯 객체).
+      // 이게 없으면 widgets_values 에 ""가 끼어들어 복원 시 filename_prefix 값이 유실된다.
+      dw.serialize = false;
       const sz = this.computeSize();
       this.setSize([Math.max(sz[0], 640), Math.max(sz[1], 540)]);
       return r;
@@ -495,6 +498,19 @@ app.registerExtension({
       onExecuted?.apply(this, arguments);
       const payload = message?.seedream_psd?.[0];
       if (payload) this.sslPanel?.load(payload);
+    };
+
+    // 구버전 저장본(DOM 위젯 값이 widgets_values 에 포함된 워크플로우) 구제:
+    // 배열 정렬이 어긋나 값이 유실돼도 named 맵에는 원본 값이 남아 있다.
+    const onConfigure = nodeType.prototype.onConfigure;
+    nodeType.prototype.onConfigure = function (info) {
+      const r = onConfigure?.apply(this, arguments);
+      const named = info?.widgets_values_named;
+      if (named && typeof named.filename_prefix === "string") {
+        const w = this.widgets?.find((x) => x.name === "filename_prefix");
+        if (w && w.value !== named.filename_prefix) w.value = named.filename_prefix;
+      }
+      return r;
     };
   },
 });
