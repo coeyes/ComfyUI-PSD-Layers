@@ -1,4 +1,4 @@
-# ComfyUI-SaveSeedreamLayersPSD
+# ComfyUI-PSD-Layers
 
 PSD layer workflow nodes for ComfyUI. No Photoshop installation required.
 

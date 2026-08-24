@@ -1,5 +1,5 @@
 [project]
-name = "comfyui-saveseedreamlayerspsd"
+name = "comfyui-psd-layers"
 description = "PSD layer workflow nodes: save Seedream layer-separation results as a smart-object PSD, and load any PSD layer by layer with composite/per-layer outputs, interactive layer panel, all Photoshop blend modes. No Photoshop required."
 version = "1.0.0"
 license = { file = "LICENSE" }
@@ -8,11 +8,11 @@ requires-python = ">=3.10"
 dependencies = ["psd-tools>=1.18.0", "pillow", "numpy"]
 
 [project.urls]
-Repository = "https://github.com/coeyes/ComfyUI-SaveSeedreamLayersPSD"
-# BugTracker = "https://github.com/coeyes/ComfyUI-SaveSeedreamLayersPSD/issues"
+Repository = "https://github.com/coeyes/ComfyUI-PSD-Layers"
+# BugTracker = "https://github.com/coeyes/ComfyUI-PSD-Layers/issues"
 
 [tool.comfy]
 # registry.comfy.org 에서 생성한 Publisher ID 로 교체할 것
 PublisherId = "coeyes"
-DisplayName = "Save/Load Layers PSD"
+DisplayName = "PSD Layers"
 Icon = ""

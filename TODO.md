@@ -29,9 +29,8 @@
 
 ## 소소한 것들
 
-- [ ] 레지스트리 DisplayName 재검토 — "Save/Load Layers PSD"가 너무 범용적.
-      "Seedream Layers PSD" 등 검토 (ID `comfyui-saveseedreamlayerspsd`는 영구 고정,
-      DisplayName은 pyproject 수정 후 재발행으로 변경 가능).
+- [x] 레지스트리 ID/이름 재검토 → `comfyui-psd-layers` / "PSD Layers" 로 리브랜딩 완료.
+      (구 ID `comfyui-saveseedreamlayerspsd`는 레지스트리 웹 UI에서 삭제 예정)
 - [ ] README에 XISER Canvas와의 차별점 한 줄: XISER는 이미지들을 자기 상태 포맷으로
       캔버스에 패킹하는 편집기, 이쪽은 PSD 네이티브 왕복(진짜 PSD 읽기/스마트 오브젝트
       쓰기 + 레이어 단위 그래프 배선).

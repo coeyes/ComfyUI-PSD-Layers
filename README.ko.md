@@ -1,4 +1,4 @@
-# ComfyUI-SaveSeedreamLayersPSD
+# ComfyUI-PSD-Layers
 
 ComfyUI용 PSD 레이어 워크플로우 노드. Photoshop 설치 불필요.
 
