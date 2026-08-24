@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/); versions match
 the `version` field in `pyproject.toml` (Comfy Registry releases).
 
+## [1.0.3] - 2026-08-25
+
+### Changed
+- Registry description rewritten with the phrases people actually search for
+  ("Load PSD", "save PSD", "Seedream layer PSD") — the registry search matches phrases.
+- `SaveSeedreamLayersPSD` gained node-search aliases (psd, save psd, seedream,
+  photoshop, layers, smart object); `LoadLayersPSD` already had its set.
+
 ## [1.0.2] - 2026-08-25
 
 ### Changed

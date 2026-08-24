@@ -122,6 +122,7 @@ class SaveSeedreamLayersPSD:
         "Save Seedream layer separation results as a smart-object PSD + preview PNG in the output "
         "folder. Reorder/hide layers in the panel, then press Re-save PSD to save again."
     )
+    SEARCH_ALIASES = ["psd", "save psd", "seedream", "photoshop", "layers", "smart object"]
 
     def save_layers(self, base_image, base_mask, layers, masks, bboxes, filename_prefix="seedream_layers",
                     prompt=None, extra_pnginfo=None, unique_id=None):
