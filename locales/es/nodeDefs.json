@@ -1,0 +1,24 @@
+{
+  "SaveSeedreamLayersPSD": {
+    "description": "Guarda los resultados de la separación de capas de Seedream como un PSD con objetos inteligentes + PNG de vista previa en la carpeta output. Reordena/oculta capas en el panel y pulsa Re-save PSD para volver a guardar.",
+    "inputs": {
+      "base_image": { "tooltip": "base_image del nodo de separación de capas (placa de fondo)." },
+      "base_mask": { "tooltip": "base_mask del nodo de separación de capas (1 = transparente)." },
+      "layers": { "tooltip": "Lote layers del nodo de separación de capas (de abajo hacia arriba)." },
+      "masks": { "tooltip": "masks del nodo de separación de capas (1 = transparente, convención de LoadImage)." },
+      "bboxes": { "tooltip": "bboxes del nodo de separación de capas (cajas de posición + metadata)." },
+      "filename_prefix": { "tooltip": "Prefijo de los archivos guardados. Admite las mismas plantillas que SaveImage, p. ej. %date:...%." }
+    },
+    "outputs": {
+      "0": { "tooltip": "Imagen de vista previa con todas las capas compuestas (idéntica al PNG guardado)." }
+    }
+  },
+  "LoadLayersPSD": {
+    "description": "Carga un PSD capa por capa: imagen compuesta + lotes de capas + pares imagen/máscara por capa. Reordenar/ocultar capas en el panel afecta al composite (admite máscaras, recorte y modos de fusión; las capas de ajuste y los estilos de capa no se aplican al recomponer).",
+    "inputs": {
+      "psd": { "tooltip": "Archivo PSD de la carpeta input. También puedes arrastrar y soltar un archivo sobre el nodo." },
+      "layer_state": { "tooltip": "Estado de orden/visibilidad editado en el panel (gestionado automáticamente)." },
+      "psd_path": { "tooltip": "Ruta absoluta en el servidor (.psd/.psb). Si se establece, se lee este archivo en lugar del combo psd. Útil para editar en Photoshop y luego pulsar Reload. En acceso remoto la ruta debe ser legible por el servidor." }
+    }
+  }
+}

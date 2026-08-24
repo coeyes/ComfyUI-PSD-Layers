@@ -1,0 +1,24 @@
+{
+  "SaveSeedreamLayersPSD": {
+    "description": "Seedream 레이어 분리 결과를 스마트 오브젝트 PSD + 미리보기 PNG로 output 폴더에 저장합니다. 패널에서 레이어 순서 변경/숨김 후 Re-save PSD 버튼으로 다시 저장할 수 있습니다.",
+    "inputs": {
+      "base_image": { "tooltip": "레이어 분리 노드의 base_image (배경 플레이트)." },
+      "base_mask": { "tooltip": "레이어 분리 노드의 base_mask (1 = 투명)." },
+      "layers": { "tooltip": "레이어 분리 노드의 layers 배치 (아래→위 순서)." },
+      "masks": { "tooltip": "레이어 분리 노드의 masks (1 = 투명, LoadImage 규약)." },
+      "bboxes": { "tooltip": "레이어 분리 노드의 bboxes (배치 박스 + metadata)." },
+      "filename_prefix": { "tooltip": "저장 파일 프리픽스. SaveImage와 동일한 %date:...% 등의 템플릿을 지원합니다." }
+    },
+    "outputs": {
+      "0": { "tooltip": "전 레이어를 합성한 미리보기 이미지 (저장되는 PNG와 동일)." }
+    }
+  },
+  "LoadLayersPSD": {
+    "description": "PSD를 레이어별로 읽습니다: 합성 이미지 + 레이어 배치 + 레이어별 이미지/마스크 쌍. 패널에서 순서/숨김을 편집하면 composite에 반영됩니다 (마스크·클리핑·블렌드 모드 지원, 조정 레이어와 레이어 스타일은 재합성 시 미반영).",
+    "inputs": {
+      "psd": { "tooltip": "input 폴더의 PSD 파일. 노드에 드래그해서 업로드할 수도 있습니다." },
+      "layer_state": { "tooltip": "패널에서 편집한 순서/숨김 상태 (자동 관리)." },
+      "psd_path": { "tooltip": "서버 로컬 절대 경로 (.psd/.psb). 입력하면 위 psd 콤보 대신 이 파일을 읽습니다. 포토샵에서 수정 후 Reload 하는 워크플로우용. 리모트 접속 시에는 서버가 읽을 수 있는 경로여야 합니다." }
+    }
+  }
+}

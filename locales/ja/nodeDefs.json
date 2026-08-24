@@ -1,0 +1,24 @@
+{
+  "SaveSeedreamLayersPSD": {
+    "description": "Seedream レイヤー分離の結果をスマートオブジェクト PSD + プレビュー PNG として output フォルダに保存します。パネルでレイヤーの順序変更/非表示を行い、Re-save PSD ボタンで再保存できます。",
+    "inputs": {
+      "base_image": { "tooltip": "レイヤー分離ノードの base_image (背景プレート)。" },
+      "base_mask": { "tooltip": "レイヤー分離ノードの base_mask (1 = 透明)。" },
+      "layers": { "tooltip": "レイヤー分離ノードの layers バッチ (下→上の順)。" },
+      "masks": { "tooltip": "レイヤー分離ノードの masks (1 = 透明、LoadImage 規約)。" },
+      "bboxes": { "tooltip": "レイヤー分離ノードの bboxes (配置ボックス + metadata)。" },
+      "filename_prefix": { "tooltip": "保存ファイルのプレフィックス。SaveImage と同じ %date:...% などのテンプレートに対応します。" }
+    },
+    "outputs": {
+      "0": { "tooltip": "全レイヤーを合成したプレビュー画像 (保存される PNG と同一)。" }
+    }
+  },
+  "LoadLayersPSD": {
+    "description": "PSD をレイヤーごとに読み込みます: 合成画像 + レイヤーバッチ + レイヤー別の画像/マスクのペア。パネルで順序/非表示を編集すると composite に反映されます (マスク・クリッピング・ブレンドモード対応、調整レイヤーとレイヤースタイルは再合成時に未適用)。",
+    "inputs": {
+      "psd": { "tooltip": "input フォルダの PSD ファイル。ノードへのドラッグ&ドロップでもアップロードできます。" },
+      "layer_state": { "tooltip": "パネルで編集した順序/非表示の状態 (自動管理)。" },
+      "psd_path": { "tooltip": "サーバーローカルの絶対パス (.psd/.psb)。指定すると上の psd コンボの代わりにこのファイルを読み込みます。Photoshop で編集して Reload するワークフロー用。リモート接続時はサーバーが読めるパスである必要があります。" }
+    }
+  }
+}

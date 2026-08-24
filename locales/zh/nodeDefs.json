@@ -1,0 +1,24 @@
+{
+  "SaveSeedreamLayersPSD": {
+    "description": "将 Seedream 图层分离结果保存为智能对象 PSD + 预览 PNG 到 output 文件夹。可在面板中调整图层顺序/隐藏后，点击 Re-save PSD 重新保存。",
+    "inputs": {
+      "base_image": { "tooltip": "图层分离节点的 base_image (背景板)。" },
+      "base_mask": { "tooltip": "图层分离节点的 base_mask (1 = 透明)。" },
+      "layers": { "tooltip": "图层分离节点的 layers 批次 (从下到上)。" },
+      "masks": { "tooltip": "图层分离节点的 masks (1 = 透明, LoadImage 约定)。" },
+      "bboxes": { "tooltip": "图层分离节点的 bboxes (位置框 + metadata)。" },
+      "filename_prefix": { "tooltip": "保存文件的前缀。支持与 SaveImage 相同的 %date:...% 等模板。" }
+    },
+    "outputs": {
+      "0": { "tooltip": "合成所有图层的预览图像 (与保存的 PNG 相同)。" }
+    }
+  },
+  "LoadLayersPSD": {
+    "description": "逐层读取 PSD: 合成图像 + 图层批次 + 每层的图像/蒙版对。在面板中编辑顺序/隐藏会反映到 composite (支持蒙版、剪贴蒙版和混合模式；调整图层和图层样式在重新合成时不生效)。",
+    "inputs": {
+      "psd": { "tooltip": "input 文件夹中的 PSD 文件。也可以拖放到节点上传。" },
+      "layer_state": { "tooltip": "面板中编辑的顺序/隐藏状态 (自动管理)。" },
+      "psd_path": { "tooltip": "服务器本地绝对路径 (.psd/.psb)。设置后将读取此文件而不是上面的 psd 下拉框。适用于在 Photoshop 中编辑后 Reload 的工作流。远程访问时该路径必须是服务器可读取的路径。" }
+    }
+  }
+}

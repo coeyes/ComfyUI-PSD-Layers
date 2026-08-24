@@ -1,0 +1,24 @@
+{
+  "SaveSeedreamLayersPSD": {
+    "description": "Enregistre les résultats de la séparation de calques Seedream en PSD à objets dynamiques + PNG d'aperçu dans le dossier output. Réorganisez/masquez les calques dans le panneau puis cliquez sur Re-save PSD pour réenregistrer.",
+    "inputs": {
+      "base_image": { "tooltip": "base_image du nœud de séparation de calques (plaque d'arrière-plan)." },
+      "base_mask": { "tooltip": "base_mask du nœud de séparation de calques (1 = transparent)." },
+      "layers": { "tooltip": "Lot layers du nœud de séparation de calques (de bas en haut)." },
+      "masks": { "tooltip": "masks du nœud de séparation de calques (1 = transparent, convention LoadImage)." },
+      "bboxes": { "tooltip": "bboxes du nœud de séparation de calques (boîtes de placement + metadata)." },
+      "filename_prefix": { "tooltip": "Préfixe des fichiers enregistrés. Prend en charge les mêmes modèles que SaveImage, p. ex. %date:...%." }
+    },
+    "outputs": {
+      "0": { "tooltip": "Image d'aperçu composée de tous les calques (identique au PNG enregistré)." }
+    }
+  },
+  "LoadLayersPSD": {
+    "description": "Charge un PSD calque par calque : image composite + lots de calques + paires image/masque par calque. Réorganiser/masquer les calques dans le panneau affecte le composite (masques, écrêtage et modes de fusion pris en charge ; les calques de réglage et les styles de calque ne sont pas appliqués lors de la recomposition).",
+    "inputs": {
+      "psd": { "tooltip": "Fichier PSD du dossier input. Vous pouvez aussi glisser-déposer un fichier sur le nœud." },
+      "layer_state": { "tooltip": "État d'ordre/visibilité édité dans le panneau (géré automatiquement)." },
+      "psd_path": { "tooltip": "Chemin absolu sur le serveur (.psd/.psb). S'il est défini, ce fichier est lu à la place du combo psd. Utile pour éditer dans Photoshop puis cliquer sur Reload. En accès distant, le chemin doit être lisible par le serveur." }
+    }
+  }
+}
