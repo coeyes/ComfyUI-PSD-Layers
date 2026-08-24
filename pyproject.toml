@@ -15,4 +15,4 @@ Repository = "https://github.com/coeyes/ComfyUI-PSD-Layers"
 # registry.comfy.org 에서 생성한 Publisher ID 로 교체할 것
 PublisherId = "coeyes"
 DisplayName = "PSD Layers"
-Icon = ""
+Icon = "https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/icon.png"

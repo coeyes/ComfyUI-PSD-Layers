@@ -31,9 +31,7 @@
 
 - [x] 레지스트리 ID/이름 재검토 → `comfyui-psd-layers` / "PSD Layers" 로 리브랜딩 완료.
       (구 ID `comfyui-saveseedreamlayerspsd`는 레지스트리 웹 UI에서 삭제 예정)
-- [ ] README에 XISER Canvas와의 차별점 한 줄: XISER는 이미지들을 자기 상태 포맷으로
-      캔버스에 패킹하는 편집기, 이쪽은 PSD 네이티브 왕복(진짜 PSD 읽기/스마트 오브젝트
-      쓰기 + 레이어 단위 그래프 배선).
+- [x] README에 XISER Canvas와의 차별점 문단 추가 완료.
 - [ ] 레이어가 아주 많을 때(예: 32쌍 = 67슬롯) 노드가 길어지는 문제 — 개별 출력 쌍을
       접고 batch 출력만 노출하는 "슬롯 접기" 옵션 검토.
 - [ ] 추가 로케일 (zh-TW 등).

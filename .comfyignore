@@ -1,0 +1,7 @@
+.git/
+.gitignore
+_smoke_test*.py
+TODO.md
+docs/
+node.zip
+__pycache__/

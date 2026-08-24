@@ -12,6 +12,16 @@ PSD layer workflow nodes for ComfyUI. No Photoshop installation required.
 Both nodes ship an interactive panel: stacked preview, alpha-accurate object picking with
 bounding-box highlight, drag-to-reorder z order, per-layer visibility toggles, and a status bar.
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_load.png" alt="Load Layers PSD" height="560">
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_save.png" alt="Save Seedream Layers PSD" height="560">
+</p>
+
+Unlike canvas-editor nodes (e.g. XISER Canvas) that pack images into their own state format,
+this pack is a **native PSD round-trip**: it reads real PSDs (masks, clipping, blend modes),
+writes real smart-object PSDs that Photoshop opens losslessly, and wires everything into the
+graph as per-layer outputs.
+
 ## Node: Save Seedream Layers PSD
 
 Connect the outputs of `ByteDanceSeedreamLayerSeparationNode` (everything except
@@ -89,6 +99,11 @@ Copy this folder into `ComfyUI/custom_nodes/`, then:
 ```
 pip install -r requirements.txt   # psd-tools>=1.18.0, pillow, numpy
 ```
+
+## Example workflows
+
+`example_workflows/` ships ready-made templates (also exposed in ComfyUI's workflow
+template browser): `load_psd_layers` and `seedream_separation_to_psd`.
 
 ## Localization
 

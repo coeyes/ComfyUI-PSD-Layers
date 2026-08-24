@@ -10,6 +10,16 @@ ComfyUI용 PSD 레이어 워크플로우 노드. Photoshop 설치 불필요.
 두 노드 모두 인터랙티브 패널을 제공한다: 합성 미리보기, 알파 정밀 오브젝트 선택(바운딩박스
 표시), 드래그 z 순서 변경, 레이어별 표시/숨김 토글, 상태바.
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_load.png" alt="Load Layers PSD" height="560">
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_save.png" alt="Save Seedream Layers PSD" height="560">
+</p>
+
+이미지들을 자체 상태 포맷으로 패킹하는 캔버스 편집기류 노드(XISER Canvas 등)와 달리,
+이 팩은 **PSD 네이티브 왕복**이다: 진짜 PSD를 읽고(마스크·클리핑·블렌드 모드), 포토샵이
+무손실로 여는 진짜 스마트 오브젝트 PSD를 쓰며, 그 사이를 레이어 단위 그래프 출력으로
+배선한다.
+
 ## 노드: Save Seedream Layers PSD
 
 `ByteDanceSeedreamLayerSeparationNode`의 출력(`layer_stack` 제외)을 위에서 아래로 그대로
@@ -81,6 +91,11 @@ ComfyUI용 PSD 레이어 워크플로우 노드. Photoshop 설치 불필요.
 ```
 pip install -r requirements.txt   # psd-tools>=1.18.0, pillow, numpy
 ```
+
+## 예제 워크플로우
+
+`example_workflows/`에 바로 쓸 수 있는 템플릿이 들어 있다 (ComfyUI 워크플로우 템플릿
+브라우저에도 노출됨): `load_psd_layers`, `seedream_separation_to_psd`.
 
 ## 로컬라이징
 
