@@ -105,7 +105,7 @@ pip install -r requirements.txt   # psd-tools[composite]>=1.18.0, pillow, numpy
 
 <img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_save.png" alt="Seedream 분리 → PSD 워크플로우">
 
-**`load_psd_layers`** — PSD → composite / 레이어별 출력:
+**`load_psd_layers`** — PSD → composite + 개별 레이어(`layer_9_image`)를 따로 뽑아 미리보기:
 
 <img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_load.png" alt="PSD 레이어 로드 워크플로우">
 

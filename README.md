@@ -112,7 +112,7 @@ template browser).
 
 <img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_save.png" alt="Seedream separation to PSD workflow">
 
-**`load_psd_layers`** — PSD → composite / per-layer outputs:
+**`load_psd_layers`** — PSD → composite + tapping a single layer (`layer_9_image`) into its own preview:
 
 <img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_load.png" alt="Load PSD layers workflow">
 
