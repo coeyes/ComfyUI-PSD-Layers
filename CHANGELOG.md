@@ -4,7 +4,7 @@ All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/); versions match
 the `version` field in `pyproject.toml` (Comfy Registry releases).
 
-## [Unreleased]
+## [1.0.6] - 2026-08-29
 
 ### Added
 - **Auto reload** toggle on the Load panel (left of Reload, off by default, persisted per
@@ -13,6 +13,12 @@ the `version` field in `pyproject.toml` (Comfy Registry releases).
   saves are debounced until the size/mtime stabilizes. While enabled, the manual Reload
   button is disabled. Server-side doc/asset caches are already keyed by mtime+size, so the
   preview cache invalidates automatically.
+
+### Fixed
+- Load panel header no longer wraps to two rows or spills past the node bottom: the header
+  shows the layer count only ("n/n", never truncated — the full text lives in the bottom
+  status bar and a tooltip), buttons are compact/nowrap, and the node auto-grows using the
+  panel's needed height vs. the allocated wrapper (debounced, catches both overflow modes).
 
 ## [1.0.5] - 2026-08-28
 
