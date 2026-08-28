@@ -25,10 +25,7 @@ const STYLE = `
 .llp-side { width:215px; flex:none; display:flex; flex-direction:column; gap:6px; min-height:0; }
 .llp-head { display:flex; justify-content:space-between; align-items:center; gap:5px;
   padding:2px 4px; color:#aaa; }
-.llp-head-label { min-width:0; display:flex; align-items:baseline; gap:3px; font-size:10px; }
-.llp-word { flex:0 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis;
-  white-space:nowrap; }
-.llp-count { flex:none; }
+.llp-head-label { flex:none; font-size:10px; white-space:nowrap; }
 .llp-head-btns { flex:none; display:flex; gap:3px; white-space:nowrap; }
 .llp-reload, .llp-auto { cursor:pointer; background:#2c2c2c; border:1px solid #444; color:#ccc;
   border-radius:4px; font-size:10px; padding:1px 5px; white-space:nowrap; }
@@ -104,7 +101,7 @@ class LoadPsdPanel {
         <div class="llp-preview"><canvas></canvas>
           <div class="llp-empty"></div></div>
         <div class="llp-side">
-          <div class="llp-head"><span class="llp-head-label"><span class="llp-word"></span> <span class="llp-count"></span></span>
+          <div class="llp-head"><span class="llp-head-label"><span class="llp-count"></span></span>
             <span class="llp-head-btns"><button class="llp-auto"></button><button class="llp-reload"></button></span></div>
           <div class="llp-list"></div>
         </div>
@@ -118,7 +115,7 @@ class LoadPsdPanel {
     this.cv = root.querySelector("canvas");
     this.listEl = root.querySelector(".llp-list");
     this.emptyEl = root.querySelector(".llp-empty");
-    this.wordEl = root.querySelector(".llp-word");
+    this.labelEl = root.querySelector(".llp-head-label");
     this.autoBtn = root.querySelector(".llp-auto");
     this.reloadBtn = root.querySelector(".llp-reload");
     this.autoBtn.addEventListener("click", () => this.setAutoReload(!this.autoReload));
@@ -211,7 +208,7 @@ class LoadPsdPanel {
   // 로케일 반영이 필요한 정적 텍스트들 갱신
   refreshTexts() {
     this.emptyEl.textContent = t("loadEmpty");
-    this.wordEl.textContent = t("layers");
+    this.labelEl.title = t("layers"); // 헤더는 숫자만 — 단어는 툴팁과 하단 상태바에
     this.reloadBtn.textContent = "⟳ " + t("reload");
     this.autoBtn.textContent = "⟲ " + t("autoReload");
     this.autoBtn.title = t("autoReloadTitle");
