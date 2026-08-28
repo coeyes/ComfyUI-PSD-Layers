@@ -23,9 +23,12 @@ const STYLE = `
   justify-content:center; color:#666; pointer-events:none; padding:12px; white-space:pre-line; }
 .llp-loaded .llp-empty { display:none; }
 .llp-side { width:215px; flex:none; display:flex; flex-direction:column; gap:6px; min-height:0; }
-.llp-head { display:flex; justify-content:space-between; align-items:center; padding:2px 4px; color:#aaa; }
+.llp-head { display:flex; justify-content:space-between; align-items:center; gap:6px;
+  padding:2px 4px; color:#aaa; }
+.llp-head-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.llp-head-btns { flex:none; display:flex; gap:4px; white-space:nowrap; }
 .llp-reload, .llp-auto { cursor:pointer; background:#2c2c2c; border:1px solid #444; color:#ccc;
-  border-radius:4px; font-size:11px; padding:2px 8px; }
+  border-radius:4px; font-size:11px; padding:2px 6px; white-space:nowrap; }
 .llp-reload:hover, .llp-auto:hover { background:#3a3a3a; }
 .llp-reload:disabled { opacity:.35; cursor:default; }
 .llp-reload:disabled:hover { background:#2c2c2c; }
@@ -98,8 +101,8 @@ class LoadPsdPanel {
         <div class="llp-preview"><canvas></canvas>
           <div class="llp-empty"></div></div>
         <div class="llp-side">
-          <div class="llp-head"><span><span class="llp-word"></span> <span class="llp-count"></span></span>
-            <span><button class="llp-auto"></button> <button class="llp-reload"></button></span></div>
+          <div class="llp-head"><span class="llp-head-label"><span class="llp-word"></span> <span class="llp-count"></span></span>
+            <span class="llp-head-btns"><button class="llp-auto"></button><button class="llp-reload"></button></span></div>
           <div class="llp-list"></div>
         </div>
       </div>
@@ -390,17 +393,13 @@ class LoadPsdPanel {
     this.fixOverflow();
   }
 
-  // 슬롯 증감으로 DOM 패널이 노드 밖으로 넘치면, 실제 화면 좌표를 측정해 그만큼 노드를 키운다
+  // 슬롯 증감/콘텐츠 증가로 패널이 노드 밖으로 넘치면 그만큼 노드를 키운다.
+  // scrollHeight-clientHeight 는 CSS px 기준 내부 오버플로량이라 줌 스케일과 무관하다.
   fixOverflow() {
     requestAnimationFrame(() => {
       const node = this.node;
-      const gcv = app.canvas;
-      if (!gcv?.canvas || !this.root.isConnected) return;
-      const scale = gcv.ds?.scale ?? 1;
-      const off = gcv.ds?.offset ?? [0, 0];
-      const cRect = gcv.canvas.getBoundingClientRect();
-      const nodeBottom = cRect.top + (node.pos[1] + node.size[1] + off[1]) * scale;
-      const overflow = (this.root.getBoundingClientRect().bottom - nodeBottom) / scale;
+      if (!this.root.isConnected) return;
+      const overflow = this.root.scrollHeight - this.root.clientHeight;
       if (overflow > 4) {
         node.setSize([node.size[0], node.size[1] + overflow + 10]);
         node.graph?.setDirtyCanvas(true, true);
