@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-psd-layers"
 description = "Load PSD / save PSD nodes with an interactive layer panel: load PSD or PSB files layer by layer (composite + per-layer image/mask outputs, all Photoshop blend modes), and save ByteDance Seedream layer PSD files with embedded smart-object layers. No Photoshop required."
-version = "1.0.4"
+version = "1.0.5"
 license = { file = "LICENSE" }
 authors = [{ name = "Hyeongjik Song", email = "coeyes@gmail.com" }]
 requires-python = ">=3.10"

@@ -4,6 +4,21 @@ All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/); versions match
 the `version` field in `pyproject.toml` (Comfy Registry releases).
 
+## [1.0.5] - 2026-08-28
+
+### Fixed
+- The bundled example workflows were serialized in the pre-1.0.1 widget layout and blanked
+  `filename_prefix` when opened from the template browser; trimmed to the current format.
+
+### Changed
+- Example workflows polished: the separation example ships with the prompt
+  `layerize objects` filled in, and the load example taps `layer_9_image` into its own
+  PreviewImage to demonstrate per-layer wiring.
+- Docs: full example-workflow screenshots in both READMEs, Save-first ordering,
+  stronger emphasis that saved PSDs keep every layer as an embedded smart object,
+  and links to the companion fal.ai project's TECH.md (reverse-engineering write-up)
+  instead of local paths.
+
 ## [1.0.4] - 2026-08-25
 
 ### Fixed
