@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/); versions match
 the `version` field in `pyproject.toml` (Comfy Registry releases).
 
+## [Unreleased]
+
+### Added
+- **Auto reload** toggle on the Load panel (left of Reload, off by default, persisted per
+  node): watches the source PSD (psd_path or the input-folder file) via lightweight server
+  stat polling and reloads automatically once the file finishes changing — write-in-progress
+  saves are debounced until the size/mtime stabilizes. While enabled, the manual Reload
+  button is disabled. Server-side doc/asset caches are already keyed by mtime+size, so the
+  preview cache invalidates automatically.
+
 ## [1.0.5] - 2026-08-28
 
 ### Fixed

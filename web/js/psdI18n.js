@@ -7,6 +7,8 @@ const STRINGS = {
   en: {
     layers: "Layers",
     reload: "Reload",
+    autoReload: "Auto",
+    autoReloadTitle: "Auto reload when the source PSD file changes",
     eyeTitle: "Show/Hide",
     loadEmpty: "Select a PSD or drag & drop\none onto the node",
     saveEmpty: "Run the node to see the layer preview",
@@ -40,6 +42,8 @@ const STRINGS = {
   ko: {
     layers: "레이어",
     reload: "다시 읽기",
+    autoReload: "자동",
+    autoReloadTitle: "원본 PSD 파일이 변경되면 자동으로 다시 읽기",
     eyeTitle: "표시/숨김",
     loadEmpty: "PSD를 선택하거나\n노드에 드래그해서 업로드하세요",
     saveEmpty: "노드를 실행하면 레이어 미리보기가 표시됩니다",
@@ -73,6 +77,8 @@ const STRINGS = {
   ja: {
     layers: "レイヤー",
     reload: "再読み込み",
+    autoReload: "自動",
+    autoReloadTitle: "元の PSD ファイルが変更されたら自動で再読み込み",
     eyeTitle: "表示/非表示",
     loadEmpty: "PSD を選択するか\nノードにドラッグ&ドロップしてください",
     saveEmpty: "ノードを実行するとレイヤープレビューが表示されます",
@@ -106,6 +112,8 @@ const STRINGS = {
   zh: {
     layers: "图层",
     reload: "重新加载",
+    autoReload: "自动",
+    autoReloadTitle: "源 PSD 文件更改时自动重新加载",
     eyeTitle: "显示/隐藏",
     loadEmpty: "选择一个 PSD\n或拖放到节点上",
     saveEmpty: "运行节点后显示图层预览",
@@ -139,6 +147,8 @@ const STRINGS = {
   es: {
     layers: "Capas",
     reload: "Recargar",
+    autoReload: "Auto",
+    autoReloadTitle: "Recargar automáticamente cuando cambie el PSD de origen",
     eyeTitle: "Mostrar/Ocultar",
     loadEmpty: "Selecciona un PSD o arrástralo\nsobre el nodo",
     saveEmpty: "Ejecuta el nodo para ver la vista previa de capas",
@@ -172,6 +182,8 @@ const STRINGS = {
   fr: {
     layers: "Calques",
     reload: "Recharger",
+    autoReload: "Auto",
+    autoReloadTitle: "Recharger automatiquement quand le PSD source change",
     eyeTitle: "Afficher/Masquer",
     loadEmpty: "Sélectionnez un PSD ou glissez-déposez\nun fichier sur le nœud",
     saveEmpty: "Exécutez le nœud pour voir l'aperçu des calques",
@@ -205,6 +217,8 @@ const STRINGS = {
   ru: {
     layers: "Слои",
     reload: "Перезагрузить",
+    autoReload: "Авто",
+    autoReloadTitle: "Автоматически перезагружать при изменении исходного PSD",
     eyeTitle: "Показать/Скрыть",
     loadEmpty: "Выберите PSD или перетащите\nфайл на ноду",
     saveEmpty: "Запустите ноду, чтобы увидеть превью слоёв",

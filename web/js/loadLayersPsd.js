@@ -24,9 +24,13 @@ const STYLE = `
 .llp-loaded .llp-empty { display:none; }
 .llp-side { width:215px; flex:none; display:flex; flex-direction:column; gap:6px; min-height:0; }
 .llp-head { display:flex; justify-content:space-between; align-items:center; padding:2px 4px; color:#aaa; }
-.llp-reload { cursor:pointer; background:#2c2c2c; border:1px solid #444; color:#ccc;
+.llp-reload, .llp-auto { cursor:pointer; background:#2c2c2c; border:1px solid #444; color:#ccc;
   border-radius:4px; font-size:11px; padding:2px 8px; }
-.llp-reload:hover { background:#3a3a3a; }
+.llp-reload:hover, .llp-auto:hover { background:#3a3a3a; }
+.llp-reload:disabled { opacity:.35; cursor:default; }
+.llp-reload:disabled:hover { background:#2c2c2c; }
+.llp-auto.llp-on { background:#3a5ccc; border-color:#3a5ccc; color:#fff; }
+.llp-auto.llp-on:hover { background:#4a6cdc; }
 .llp-list { flex:1; overflow-y:auto; overflow-x:hidden; display:flex;
   flex-direction:column; gap:2px; min-height:0; }
 .llp-row { display:flex; align-items:center; gap:6px; padding:3px 4px; border-radius:4px;
@@ -95,7 +99,7 @@ class LoadPsdPanel {
           <div class="llp-empty"></div></div>
         <div class="llp-side">
           <div class="llp-head"><span><span class="llp-word"></span> <span class="llp-count"></span></span>
-            <button class="llp-reload"></button></div>
+            <span><button class="llp-auto"></button> <button class="llp-reload"></button></span></div>
           <div class="llp-list"></div>
         </div>
       </div>
@@ -109,7 +113,9 @@ class LoadPsdPanel {
     this.listEl = root.querySelector(".llp-list");
     this.emptyEl = root.querySelector(".llp-empty");
     this.wordEl = root.querySelector(".llp-word");
+    this.autoBtn = root.querySelector(".llp-auto");
     this.reloadBtn = root.querySelector(".llp-reload");
+    this.autoBtn.addEventListener("click", () => this.setAutoReload(!this.autoReload));
     this.countEl = root.querySelector(".llp-count");
     this.statusMain = root.querySelector(".llp-status-main");
     this.statusWarn = root.querySelector(".llp-status-warn");
@@ -201,9 +207,70 @@ class LoadPsdPanel {
     this.emptyEl.textContent = t("loadEmpty");
     this.wordEl.textContent = t("layers");
     this.reloadBtn.textContent = "⟳ " + t("reload");
+    this.autoBtn.textContent = "⟲ " + t("autoReload");
+    this.autoBtn.title = t("autoReloadTitle");
     if (this.state) {
       this.updateStatus();
       this.renderList();
+    }
+  }
+
+  // ---- auto reload (원본 PSD 파일 워칭 — 서버 stat 폴링) ----
+
+  setAutoReload(on) {
+    this.autoReload = !!on;
+    this.node.properties = this.node.properties || {};
+    this.node.properties.llpAutoReload = this.autoReload;
+    this.autoBtn.classList.toggle("llp-on", this.autoReload);
+    this.reloadBtn.disabled = this.autoReload;
+    clearInterval(this.watchTimer);
+    this.watchTimer = null;
+    if (this.autoReload) {
+      this.watchLast = null;    // 마지막으로 로드된 시점의 stat
+      this.watchPending = null; // 변경 감지 후 안정화 대기 중인 stat
+      this.watchTimer = setInterval(() => this.pollStat(), 1500);
+    }
+  }
+
+  async pollStat() {
+    if (!this.root.isConnected) { // 노드 삭제 → 워처 종료
+      clearInterval(this.watchTimer);
+      this.watchTimer = null;
+      return;
+    }
+    const psd = this.psdWidget()?.value;
+    const psdPath = this.pathWidget()?.value?.trim() || "";
+    if ((!psd && !psdPath) || this.watchBusy) return;
+    try {
+      const res = await api.fetchApi("/load_layers_psd/stat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ psd, psd_path: psdPath }),
+      });
+      if (!res.ok) return; // 파일 없음/서버 오류 → 다음 폴에서 재시도
+      const { stat } = await res.json();
+      if (this.watchLast === null) { // 첫 관측은 기준값으로만
+        this.watchLast = stat;
+        return;
+      }
+      if (stat === this.watchLast) {
+        this.watchPending = null;
+        return;
+      }
+      // 변경 감지 → 쓰기 완료(한 주기 동안 stat 동일)까지 기다렸다가 리로드
+      if (stat !== this.watchPending) {
+        this.watchPending = stat;
+        return;
+      }
+      this.watchBusy = true;
+      try {
+        if (await this.inspect(true)) this.watchLast = stat;
+        this.watchPending = null;
+      } finally {
+        this.watchBusy = false;
+      }
+    } catch {
+      /* 폴링 오류는 무시 */
     }
   }
 
@@ -289,6 +356,7 @@ class LoadPsdPanel {
     };
     this.root.classList.add("llp-loaded");
     this.compBmp = null;
+    this.watchLast = null; // 소스가 바뀌었을 수 있으니 워처 기준값 재설정
     this.ensureOutputs(); // 내부에서 fixOverflow 호출
     this.updateStatus();
     this.renderList();
@@ -743,6 +811,7 @@ app.registerExtension({
           if (w && w.value !== named[name]) w.value = named[name];
         }
       }
+      if (this.properties?.llpAutoReload) this.llpPanel?.setAutoReload(true);
       setTimeout(() => this.llpPanel?.autoInspect(), 0);
       return r;
     };

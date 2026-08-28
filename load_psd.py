@@ -537,6 +537,19 @@ def register_routes():
             return web.json_response({"error": str(exc)}, status=500)
         return web.json_response(payload)
 
+    @routes.post("/load_layers_psd/stat")
+    async def llp_stat(request):
+        """auto reload 폴링용: 현재 소스 PSD의 mtime/size 만 가볍게 반환."""
+        data = await _json_body(request)
+        if data is None:
+            return web.json_response({"error": "Invalid JSON body", "code": "bad_json"}, status=400)
+        path = _resolve_path(str(data.get("psd") or ""), str(data.get("psd_path") or ""))
+        try:
+            st = os.stat(path)
+        except OSError:
+            return web.json_response({"error": "file not found", "code": "file_not_found"}, status=404)
+        return web.json_response({"stat": f"{st.st_mtime_ns}:{st.st_size}"})
+
     @routes.post("/load_layers_psd/recomposite")
     async def llp_recomposite(request):
         data = await _json_body(request)
