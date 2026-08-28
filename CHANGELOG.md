@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/); versions match
 the `version` field in `pyproject.toml` (Comfy Registry releases).
 
+## [1.0.4] - 2026-08-25
+
+### Fixed
+- Dependency is now `psd-tools[composite]` — the extra (aggdraw, scipy, scikit-image) is
+  required by the psd-tools compositing engine for vector/shape rasterization and richer
+  rendering; without it shape/fill layers could fail to render.
+
 ## [1.0.3] - 2026-08-25
 
 ### Changed

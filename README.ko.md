@@ -89,7 +89,7 @@ ComfyUI용 PSD 레이어 워크플로우 노드. Photoshop 설치 불필요.
 이 폴더를 `ComfyUI/custom_nodes/`에 복사한 뒤:
 
 ```
-pip install -r requirements.txt   # psd-tools>=1.18.0, pillow, numpy
+pip install -r requirements.txt   # psd-tools[composite]>=1.18.0, pillow, numpy
 ```
 
 ## 예제 워크플로우

@@ -97,7 +97,7 @@ For remote access the path must be readable by the server; otherwise use drag & 
 Copy this folder into `ComfyUI/custom_nodes/`, then:
 
 ```
-pip install -r requirements.txt   # psd-tools>=1.18.0, pillow, numpy
+pip install -r requirements.txt   # psd-tools[composite]>=1.18.0, pillow, numpy
 ```
 
 ## Example workflows
