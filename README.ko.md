@@ -99,7 +99,15 @@ pip install -r requirements.txt   # psd-tools[composite]>=1.18.0, pillow, numpy
 ## 예제 워크플로우
 
 `example_workflows/`에 바로 쓸 수 있는 템플릿이 들어 있다 (ComfyUI 워크플로우 템플릿
-브라우저에도 노출됨): `load_psd_layers`, `seedream_separation_to_psd`.
+브라우저에도 노출됨).
+
+**`seedream_separation_to_psd`** — 이미지 → Seedream 레이어 분리 → 스마트 오브젝트 PSD:
+
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_save.png" alt="Seedream 분리 → PSD 워크플로우">
+
+**`load_psd_layers`** — PSD → composite / 레이어별 출력:
+
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_load.png" alt="PSD 레이어 로드 워크플로우">
 
 ## 로컬라이징
 

@@ -106,7 +106,15 @@ pip install -r requirements.txt   # psd-tools[composite]>=1.18.0, pillow, numpy
 ## Example workflows
 
 `example_workflows/` ships ready-made templates (also exposed in ComfyUI's workflow
-template browser): `load_psd_layers` and `seedream_separation_to_psd`.
+template browser).
+
+**`seedream_separation_to_psd`** — image → Seedream layer separation → smart-object PSD:
+
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_save.png" alt="Seedream separation to PSD workflow">
+
+**`load_psd_layers`** — PSD → composite / per-layer outputs:
+
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/workflow_load.png" alt="Load PSD layers workflow">
 
 ## Localization
 
