@@ -94,6 +94,10 @@ For remote access the path must be readable by the server; otherwise use drag & 
   original PSD order regardless of edits.
 - **Reload button**, plus automatic reload on the next run when the source file changes
   (mtime-based `IS_CHANGED`).
+- **Auto reload toggle** (left of Reload, off by default, persisted per node): watches the
+  source file — `psd_path` or the input-folder PSD — and reloads the panel automatically
+  when it changes. Saves-in-progress are debounced until the file stabilizes; while enabled,
+  the manual Reload button is disabled. Ideal for the edit-in-Photoshop loop.
 
 ## Installation
 

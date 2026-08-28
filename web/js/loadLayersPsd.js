@@ -394,17 +394,23 @@ class LoadPsdPanel {
   }
 
   // 슬롯 증감/콘텐츠 증가로 패널이 노드 밖으로 넘치면 그만큼 노드를 키운다.
-  // scrollHeight-clientHeight 는 CSS px 기준 내부 오버플로량이라 줌 스케일과 무관하다.
+  // 필요 높이(root.scrollHeight: min-height·콘텐츠 반영) vs litegraph 가 할당한
+  // 래퍼 높이를 CSS px 로 비교 — 패널이 래퍼를 뚫는 경우와 내부 콘텐츠가
+  // 넘치는 경우를 모두 잡고, 줌 스케일과 무관하다.
   fixOverflow() {
-    requestAnimationFrame(() => {
+    // 연속 호출(자동 inspect + 수동 inspect 등)을 디바운스 — 확장 직후 래퍼 높이가
+    // 다음 draw까지 구값이라 중복 측정하면 과확장된다.
+    clearTimeout(this._ovfTimer);
+    this._ovfTimer = setTimeout(() => {
       const node = this.node;
       if (!this.root.isConnected) return;
-      const overflow = this.root.scrollHeight - this.root.clientHeight;
+      const given = this.root.parentElement?.offsetHeight || this.root.clientHeight;
+      const overflow = this.root.scrollHeight - given;
       if (overflow > 4) {
         node.setSize([node.size[0], node.size[1] + overflow + 10]);
         node.graph?.setDirtyCanvas(true, true);
       }
-    });
+    }, 250);
   }
 
   // ---- 편집 → 상태 위젯 + 서버 재합성 ----
