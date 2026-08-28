@@ -1,9 +1,11 @@
 """Seedream 레이어들을 임베디드 스마트 오브젝트 PSD로 조립한다.
 
-D:\\proj\\seedream5_layer 프로젝트(make_psd.py)의 검증된 로직을 이식한 모듈.
 psd-tools 고수준 API는 스마트 오브젝트 생성을 지원하지 않으므로, Photoshop이
 실제로 기록한 바이너리 블록(SoLd/PlLd/lnk2)을 base64 템플릿으로 임베드해 두고
 uuid·트랜스폼·크기만 런타임에 패치한다. Photoshop 설치 불필요.
+
+역공학 상세와 검증 기록:
+https://github.com/coeyes/Fal.ai-Seedream5-Layers-To-Save-PSD (TECH.md)
 """
 
 import base64

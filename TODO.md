@@ -14,7 +14,8 @@
 2. **스케일** — 바운딩박스 핸들 8개. 임베디드 원본은 그대로 두고 코너만 변경.
    Seedream은 네이티브가 bbox보다 고해상도라 확대해도 포토샵에서 화질 유지.
    미리보기/flatten 프리뷰 래스터만 리사이즈.
-3. **회전** — PSD 포맷은 지원(`Trnf` 코너 8개에 회전 좌표, HANDOFF 참조).
+3. **회전** — PSD 포맷은 지원(`Trnf` 코너 8개에 회전 좌표, 동반 프로젝트의
+   [TECH.md](https://github.com/coeyes/Fal.ai-Seedream5-Layers-To-Save-PSD/blob/master/TECH.md) 참조).
    합성 미리보기·flatten 프리뷰의 회전 리샘플링이 필요해 손이 가장 많이 간다.
 
 ## 범용 Save Layers PSD

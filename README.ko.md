@@ -4,15 +4,17 @@ ComfyUI용 PSD 레이어 워크플로우 노드. Photoshop 설치 불필요.
 
 [English documentation](README.md)
 
-- **Save Seedream Layers PSD** — ByteDance Seedream 레이어 분리 결과를 스마트 오브젝트 PSD로 저장
+- **Save Seedream Layers PSD** — ByteDance Seedream 레이어 분리 결과를 **모든 레이어가
+  임베디드 스마트 오브젝트로 유지되는** PSD로 저장: 어떤 것도 래스터로 병합되지 않아,
+  포토샵에서 각 요소를 개별적으로 이동·변형·재편집할 수 있다
 - **Load Layers PSD** — 임의의 PSD를 레이어별로 읽어 composite + 레이어별 이미지/마스크 출력
 
 두 노드 모두 인터랙티브 패널을 제공한다: 합성 미리보기, 알파 정밀 오브젝트 선택(바운딩박스
 표시), 드래그 z 순서 변경, 레이어별 표시/숨김 토글, 상태바.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_load.png" alt="Load Layers PSD" height="560">
 <img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_save.png" alt="Save Seedream Layers PSD" height="560">
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_load.png" alt="Load Layers PSD" height="560">
 </p>
 
 이미지들을 자체 상태 포맷으로 패킹하는 캔버스 편집기류 노드(XISER Canvas 등)와 달리,
@@ -45,7 +47,9 @@ ComfyUI용 PSD 레이어 워크플로우 노드. Photoshop 설치 불필요.
 ### 동작
 
 - 실행 시 `output` 폴더에 `<prefix>_00001_.psd` + `<prefix>_00001_.png`(합성 미리보기) 저장.
-- PSD는 배경 + 각 레이어를 **임베디드 스마트 오브젝트**로 z_index 순서로 쌓는다.
+- PSD는 배경 + 각 레이어를 **임베디드 스마트 오브젝트**로 z_index 순서로 쌓는다 —
+  AI가 분리한 요소들이 납작한 래스터로 합쳐지지 않고 각자의 픽셀을 유지하므로,
+  포토샵에서 화질 손실 없이 개별 이동·스케일·교체가 가능하다.
 - 패널: 미리보기에서 오브젝트 클릭(알파 히트테스트) 또는 리스트에서 선택,
   **드래그로 z 순서 변경**, 눈 아이콘으로 표시/숨김 토글.
 - **Re-save PSD 버튼**: 그래프 재실행 없이 조정한 순서/가시성으로 재저장(카운터 증가).
@@ -108,7 +112,9 @@ pip install -r requirements.txt   # psd-tools[composite]>=1.18.0, pillow, numpy
 psd-tools는 스마트 오브젝트 *쓰기*를 공식 지원하지 않는다. Save 노드는 실제 포토샵 파일에서
 추출한 base64 템플릿으로 `SoLd`/`PlLd`/`lnk2` 바이너리 블록을 조립하고 uuid·트랜스폼·크기만
 런타임에 패치하며, psd-tools의 LinkedLayer v8 `contentID` 누락 버그(포토샵이 파일을 거부하게
-됨)를 `LinkedLayerV8` 서브클래스로 우회한다.
+됨)를 `LinkedLayerV8` 서브클래스로 우회한다. 역공학 전 과정은 동반 프로젝트
+[Fal.ai-Seedream5-Layers-To-Save-PSD](https://github.com/coeyes/Fal.ai-Seedream5-Layers-To-Save-PSD)
+(CLI+GUI)의 [TECH.ko.md](https://github.com/coeyes/Fal.ai-Seedream5-Layers-To-Save-PSD/blob/master/TECH.ko.md)에 정리돼 있다.
 
 Load 노드는 래스터 레이어를 직독(`layer.numpy()`, 합성 엔진 대비 약 10배)하고 벡터 요소가
 있을 때만 엔진을 쓴다. UI 미리보기 에셋은 프리멀티플라이드 알파 LANCZOS로 2048px 캡

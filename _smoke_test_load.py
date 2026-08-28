@@ -16,7 +16,10 @@ spec.loader.exec_module(llp)
 import numpy as np  # noqa: E402
 from psd_tools import PSDImage  # noqa: E402
 
-TEST_PSD = sys.argv[1] if len(sys.argv) > 1 else r"D:\proj\seedream5_layer\layer.psd"
+if len(sys.argv) < 2:
+    print("usage: python _smoke_test_load.py <test.psd>")
+    raise SystemExit(1)
+TEST_PSD = sys.argv[1]
 
 doc = llp.extract_document(TEST_PSD)
 W, H = doc["canvas"]

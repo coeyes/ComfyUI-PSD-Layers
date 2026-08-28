@@ -4,8 +4,9 @@ PSD layer workflow nodes for ComfyUI. No Photoshop installation required.
 
 [한국어 문서 (Korean)](README.ko.md)
 
-- **Save Seedream Layers PSD** — save ByteDance Seedream layer-separation results as a
-  smart-object PSD
+- **Save Seedream Layers PSD** — save ByteDance Seedream layer-separation results as a PSD
+  where **every layer is preserved as an embedded smart object**: nothing gets flattened,
+  so each element stays individually movable, transformable and re-editable in Photoshop
 - **Load Layers PSD** — load any PSD layer by layer with a composite output and per-layer
   image/mask outputs
 
@@ -13,8 +14,8 @@ Both nodes ship an interactive panel: stacked preview, alpha-accurate object pic
 bounding-box highlight, drag-to-reorder z order, per-layer visibility toggles, and a status bar.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_load.png" alt="Load Layers PSD" height="560">
 <img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_save.png" alt="Save Seedream Layers PSD" height="560">
+<img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/screenshot_load.png" alt="Load Layers PSD" height="560">
 </p>
 
 Unlike canvas-editor nodes (e.g. XISER Canvas) that pack images into their own state format,
@@ -48,7 +49,9 @@ Connect the outputs of `ByteDanceSeedreamLayerSeparationNode` (everything except
 
 - On execution, saves `<prefix>_00001_.psd` + `<prefix>_00001_.png` (composite preview) to the
   `output` folder.
-- The PSD stacks the background plus each layer as an **embedded smart object** in z-index order.
+- The PSD stacks the background plus each layer as an **embedded smart object** in z-index
+  order — the AI-separated elements are not rasterized into flat layers, so in Photoshop each
+  one keeps its own pixels and can be repositioned, scaled or swapped without quality loss.
 - Panel: click objects in the preview (alpha hit test) or rows in the list to select,
   **drag rows to change z order**, toggle visibility with the eye icon.
 - **Re-save PSD button**: saves again with the adjusted order/visibility without re-running the
@@ -117,7 +120,9 @@ psd-tools does not officially support *writing* smart objects. The Save node ass
 `SoLd`/`PlLd`/`lnk2` binary blocks from base64 templates extracted from a real Photoshop file,
 patching only uuid/transform/size at runtime, and works around a psd-tools bug (missing
 `contentID` in LinkedLayer v8 that makes Photoshop reject the file) via a `LinkedLayerV8`
-subclass.
+subclass. The full reverse-engineering write-up lives in
+[TECH.md](https://github.com/coeyes/Fal.ai-Seedream5-Layers-To-Save-PSD/blob/master/TECH.md)
+of the companion [fal.ai CLI/GUI project](https://github.com/coeyes/Fal.ai-Seedream5-Layers-To-Save-PSD).
 
 The Load node reads raster layers directly (`layer.numpy()`, ~10x faster than the compositing
 engine) and falls back to the engine only for vector content. UI preview assets are
