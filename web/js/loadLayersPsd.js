@@ -23,12 +23,13 @@ const STYLE = `
   justify-content:center; color:#666; pointer-events:none; padding:12px; white-space:pre-line; }
 .llp-loaded .llp-empty { display:none; }
 .llp-side { width:215px; flex:none; display:flex; flex-direction:column; gap:6px; min-height:0; }
-.llp-head { display:flex; justify-content:space-between; align-items:center; gap:6px;
+.llp-head { display:flex; justify-content:space-between; align-items:center; gap:5px;
   padding:2px 4px; color:#aaa; }
-.llp-head-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.llp-head-btns { flex:none; display:flex; gap:4px; white-space:nowrap; }
+.llp-head-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-size:10px; }
+.llp-head-btns { flex:none; display:flex; gap:3px; white-space:nowrap; }
 .llp-reload, .llp-auto { cursor:pointer; background:#2c2c2c; border:1px solid #444; color:#ccc;
-  border-radius:4px; font-size:11px; padding:2px 6px; white-space:nowrap; }
+  border-radius:4px; font-size:10px; padding:1px 5px; white-space:nowrap; }
 .llp-reload:hover, .llp-auto:hover { background:#3a3a3a; }
 .llp-reload:disabled { opacity:.35; cursor:default; }
 .llp-reload:disabled:hover { background:#2c2c2c; }
