@@ -147,4 +147,4 @@ high-quality `createImageBitmap` caching with a zoom-settle redraw.
 
 MIT License — see [LICENSE](LICENSE).
 
-Author: **Hyeongjik Song** <coeyes@gmail.com>
+Author: **Hyeongjik Song** <coeyes@gmail.com>, [<sub><img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/studio-animal-logo-full.svg" alt="studio animal logo" height="25"></sub>Studio Animal Inc.](http://www.studioanimal.co.kr/)

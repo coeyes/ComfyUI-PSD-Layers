@@ -139,4 +139,4 @@ Load 노드는 래스터 레이어를 직독(`layer.numpy()`, 합성 엔진 대�
 
 MIT License — [LICENSE](LICENSE) 참조.
 
-제작자: **Hyeongjik Song** <coeyes@gmail.com>
+제작자: **Hyeongjik Song** <coeyes@gmail.com>, [<sub><img src="https://raw.githubusercontent.com/coeyes/ComfyUI-PSD-Layers/main/docs/studio-animal-logo-full.svg" alt="studio animal logo" height="25"></sub>Studio Animal Inc.](http://www.studioanimal.co.kr/)
